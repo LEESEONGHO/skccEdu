@@ -1,4 +1,4 @@
-# Install CM 5.15
+﻿# Install CM 5.15
 ## 들어가기 전
 ```
 ssh -i skcc.pem centos@13.124.135.81
@@ -438,3 +438,5 @@ sqoop import \
 --table device \
 --as-parquetfile \
 --target-dir "/user/hive/warehouse/device_ex_sh2"
+
+Test
