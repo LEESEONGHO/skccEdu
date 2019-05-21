@@ -292,9 +292,76 @@ show grants for 'training'@'%';
 
 # 해볼것들
 ## sqoop import + hive table
+```
+mysql -u training -p
 
+show databases;
+
+use loudacre;
+
+show tables;
+
+sqoop import \
+--connect jdbc:mysql://util01/loudacre \
+--username training \
+--password training \
+--table device \
+--hive-import \
+--hive-table device_dv1
+```
 ## sqoop external import + hive loading
+```
+sqoop import \
+--connect jdbc:mysql://util01/loudacre \
+--table device \
+--username training  \
+--password training \
+--as-parquetfile \
+--target-dir /user/training/device_dv2
 
+sqoop import \
+--connect jdbc:mysql://util01/loudacre \
+--table device \
+--username training  \
+--password training \
+--as-parquetfile \
+--fields-terminated-by '\t' \
+--target-dir /loudacre/device_dv2
+
+
+
+CREATE EXTERNAL TABLE ` `(
+  `device_num` int,
+  `release_dt` string,
+  `device_name` string,
+  `device_type` string)
+COMMENT 'device_dv2'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+STORED AS PARQUET 
+LOCATION
+  '/loudacre/device_dv2'
+;
+
+
+CREATE EXTERNAL TABLE `device_dv2`(
+  `device_num` int,
+  `release_dt` string,
+  `device_name` string,
+  `device_type` string)
+  ROW FORMAT SERDE 'parquet.hive.serde.ParquetHiveSerDe'
+  STORED AS 
+    INPUTFORMAT "parquet.hive.DeprecatedParquetInputFormat"
+    OUTPUTFORMAT "parquet.hive.DeprecatedParquetOutputFormat"
+    LOCATION '/loudacre/device_dv2'
+
+
+
+
+sudo -u hdfs hdfs dfs -mkdir /user/training/device_dv2
+
+sudo -u hdfs hdfs dfs -chown training /user/training/device_dv2
+
+```
 ## impala sql 
 
 # 참고사항
@@ -318,9 +385,56 @@ setup.sh 안 돌거, 권한 문제 등으로 인해서
 -- raw data 디렉토리 바꿀 때: superuser 권한으로 접속해서 해야함 (user: hdfs)
 sudo -u hdfs 
 hdfs dfs -chmod 777
+
+
+sudo -u hdfs hdfs dfs -mkdir /loudacre 
+
+sudo -u hdfs hdfs dfs -chown training /loudacre
+
+
 -------------------------------------
 --- sqoop 2(얘는 서버 사용, 클라이언트-서버)가 아닌 sqoop1 설치하기
 -------------------------------------
 영향도 있음
 >> ZOOKEEPER > HIVE > HUE
 ```
+
+
+
+
+
+### sqoop 샘플 소스
+
+sqoop import \
+--connect jdbc:mysql://util01/loudacre \
+--username training \
+--password training \
+--table device \
+--hive-import \
+--create-hive-table \
+--hive-table device_sh -m -1
+
+
+
+
+create external table if not exists device_ex_sh2 (
+  device_num int,
+  release_dt string,
+  device_name string,
+  device_type string)
+COMMENT "device_ex_sh"
+ROW FORMAT DELIMITED FIELDS TERMINATED BY "\t"
+STORED AS PARQUET
+LOCATION "/user/hive/warehouse/device_ex_sh2"
+;
+
+
+
+
+sqoop import \
+--connect jdbc:mysql://util01/loudacre \
+--username training \
+--password training \
+--table device \
+--as-parquetfile \
+--target-dir "/user/hive/warehouse/device_ex_sh2"
