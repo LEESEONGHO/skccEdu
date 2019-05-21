@@ -439,4 +439,4 @@ sqoop import \
 --as-parquetfile \
 --target-dir "/user/hive/warehouse/device_ex_sh2"
 
-Test
+
