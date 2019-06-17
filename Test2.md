@@ -41,3 +41,30 @@ comment "employee"
 row format delimited fields terminated by "\t"
 stored as parquet location "/user/hive/warehouse/employee"
 ```
+
+## Problem3
+```
+create external table if not exists solution (
+id int,
+fname string,
+lname string,
+hphone string
+)
+comment "problem3"
+row format delimited fields terminated by "\t"
+stored as orc location "/user/training/problem3/solution"
+;
+
+insert into problem3.solution
+select a.id
+, a.fname
+, a.lname
+, a.hphone
+from problem3.customer a
+     inner join
+     problem3.account b
+     on a.id = b.custid
+where 1=1
+  and b.amount < 0
+;
+```
