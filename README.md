@@ -8,7 +8,6 @@ ssh -i skcc.pem centos@54.180.186.127
 ssh -i skcc.pem centos@54.180.38.41
 ```
 
-
 ## 1. Enable user / password login for each of the 5 nodes 
 ### a. Create a password for user “centos” 
 ### b. Modify sshd_config to allow password login 
