@@ -138,3 +138,25 @@ where 1=1
 and state = 'CA'
 ;
 ```
+
+## Problem5
+```
+select 
+fname
+, lname
+, city
+, state 
+from customer 
+where city='Palo Alto' 
+and state = 'CA'
+union all
+select 
+fname
+, lname
+, city
+, state 
+from employee 
+where city='Palo Alto' 
+and state = 'CA'
+;
+```
