@@ -68,3 +68,73 @@ where 1=1
   and b.amount < 0
 ;
 ```
+
+## Problem4
+```
+create database if not exists problem4;
+
+create external table if not exists employee1 (
+cust_id int,
+fname string,
+lname string,
+adress string,
+city string,
+state string,
+zip string
+)
+COMMENT "employee1"
+ROW FORMAT DELIMITED FIELDS TERMINATED BY "\t"
+STORED AS TEXTFILE LOCATION "/user/training/problem4/data/employee1/"
+;
+
+
+create external table if not exists employee2 (
+cust_id int,
+digit string,
+fname string,
+lname string,
+adress string,
+city string,
+state string,
+zip string
+)
+COMMENT "employee2"
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ","
+STORED AS TEXTFILE LOCATION "/user/training/problem4/data/employee2/"
+;
+
+
+
+create external table if not exists solution (
+cust_id int,
+fname string,
+lname string,
+adress string,
+city string,
+state string,
+zip string
+)
+COMMENT "problem4"
+ROW FORMAT DELIMITED FIELDS TERMINATED BY "\t"
+STORED AS TEXTFILE LOCATION "/user/training/problem4/solution/"
+;
+
+
+insert into solution
+select *
+from employee1
+where 1=1
+and state = 'CA'
+union all
+select cust_id
+, fname
+, lname
+, adress
+, city
+, state
+, zip
+from employee2
+where 1=1
+and state = 'CA'
+;
+```
