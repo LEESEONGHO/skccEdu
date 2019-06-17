@@ -1,4 +1,4 @@
-﻿# Install CM 5.15 (test2)
+﻿# Install CM 5.15
 ## 들어가기 전
 ```
 ssh -i skcc.pem centos@13.124.135.81
