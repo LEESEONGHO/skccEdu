@@ -186,6 +186,7 @@ mn1, util01, dn1, dn2, dn3
 
 #### HDFS
 #### YARN
+#### sqoop1
 #### ▪ ZOOKEEPER 3개로 설정하기
 -- 호스트 별 역할
 . server: util01, mn1, dn1
