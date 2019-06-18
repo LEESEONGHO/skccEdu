@@ -97,7 +97,7 @@ sudo /usr/bin/mysql_secure_installation
 >> 나머지 Y (disable root login: n) 
 >> toor
 ```
-### d. Install the mysql connector or mariadb connector 
+### d. Install the mysql connector or mariadb connector (모든 노드에서 진행필요)
 ```
 sudo yum install -y wget
 sudo wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.47.tar.gz
@@ -185,8 +185,9 @@ mn1, util01, dn1, dn2, dn3
 >> 3 - 10 Worker Hosts without High Availability
 
 #### HDFS
+
 #### YARN
-#### sqoop1
+
 #### ▪ ZOOKEEPER 3개로 설정하기
 -- 호스트 별 역할
 . server: util01, mn1, dn1
@@ -197,10 +198,15 @@ mn1, util01, dn1, dn2, dn3
 172.31.10.234   data02.cdhcluster.com   dn2     :
 172.31.3.22     data03.cdhcluster.com   dn3     :
 
+CM Service 는 모두 util01 서버에 설치
+
+
 ### 데이터베이스 설정
 active monior: amon/amon-user/somepassword
 report monior:rmon/rmon-user/somepassword
 ```
+
+
 
 # Install Sqoop, Spark and Kafka
 ## • Create user “training” with password “training” and add to group wheel for sudo access.
